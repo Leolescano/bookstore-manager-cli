@@ -88,4 +88,40 @@ export class LivroRepository {
             registro.quantidade_disponivel
         );
     }
+
+    async atualizar(
+        id: number,
+        titulo: string,
+        autorId: number,
+        quantidadeTotal: number
+    ): Promise<Livro | null> {
+        const resultado = await pool.query(
+            `UPDATE livros
+            SET
+                titulo = $1,
+                autor_id = $2,
+                quantidade_disponivel =
+                    $3 - (quantidade_total - quantidade_disponivel),
+                quantidade_total = $3
+            WHERE id = $4
+            AND $3 >= (quantidade_total - quantidade_disponivel)
+            RETURNING id, titulo, autor_id,
+                    quantidade_total, quantidade_disponivel`,
+            [titulo, autorId, quantidadeTotal, id]
+        );
+
+        const registro = resultado.rows[0];
+
+        if (!registro) {
+            return null;
+        }
+
+        return new Livro(
+            registro.id,
+            registro.titulo,
+            registro.autor_id,
+            registro.quantidade_total,
+            registro.quantidade_disponivel
+        );
+    }
 }

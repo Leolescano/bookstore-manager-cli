@@ -17,21 +17,7 @@ export class LivroService {
         autorId: number,
         quantidadeTotal: number
     ): Promise<Livro> {
-        const tituloTratado = titulo.trim();
-
-        if (tituloTratado.length === 0) {
-            throw new Error("O título do livro é obrigatório.");
-        }
-
-        if (tituloTratado.length > 200) {
-            throw new Error("O título do livro deve ter até 200 caracteres.");
-        }
-
-        if (!Number.isInteger(quantidadeTotal) || quantidadeTotal < 0) {
-            throw new Error(
-                "A quantidade total deve ser um número inteiro maior ou igual a zero."
-            );
-        }
+        const tituloTratado = this.validarDados(titulo, quantidadeTotal);
 
         await this.autorService.buscarPorId(autorId);
 
@@ -41,7 +27,7 @@ export class LivroService {
             quantidadeTotal
         );
     }
-
+   
     async listar(): Promise<LivroComAutor[]> {
         return this.livroRepository.listar();
     }
@@ -58,5 +44,65 @@ export class LivroService {
         }
 
         return livro;
+    }
+
+    async atualizar(
+        id: number,
+        titulo: string,
+        autorId: number,
+        quantidadeTotal: number
+    ): Promise<Livro> {
+        const livroAtual = await this.buscarPorId(id);
+
+        const tituloTratado = this.validarDados(titulo, quantidadeTotal);
+
+        await this.autorService.buscarPorId(autorId);
+
+        const quantidadeEmprestada =
+            livroAtual.quantidadeTotal - livroAtual.quantidadeDisponivel;
+
+        if (quantidadeTotal < quantidadeEmprestada) {
+            throw new Error(
+                `O total não pode ser menor que os ${quantidadeEmprestada} exemplares emprestados.`
+            );
+        }
+
+        const livroAtualizado = await this.livroRepository.atualizar(
+            id,
+            tituloTratado,
+            autorId,
+            quantidadeTotal
+        );
+
+        if (livroAtualizado === null) {
+            throw new Error(
+                "Não foi possível atualizar o livro. Consulte os dados e tente novamente."
+            );
+        }
+
+        return livroAtualizado;
+    }
+
+    private validarDados(
+        titulo: string,
+        quantidadeTotal: number
+    ): string {
+        const tituloTratado = titulo.trim();
+
+        if (tituloTratado.length === 0) {
+            throw new Error("O título do livro é obrigatório.");
+        }
+
+        if (tituloTratado.length > 200) {
+            throw new Error("O título do livro deve ter até 200 caracteres.");
+        }
+
+        if (!Number.isInteger(quantidadeTotal) || quantidadeTotal < 0) {
+            throw new Error(
+                "A quantidade total deve ser um número inteiro maior ou igual a zero."
+            );
+        }
+
+        return tituloTratado;
     }
 }
