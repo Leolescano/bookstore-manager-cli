@@ -33,4 +33,17 @@ export class LivroController {
         console.log("Livro cadastrado com sucesso!");
         console.table([livro]);
     }
+    
+    async listar(): Promise<void> {
+        const livros = await this.livroService.listar();
+
+        if (livros.length === 0) {
+            console.log("Nenhum livro cadastrado.");
+            return;
+        }
+
+        console.log("\nLivros cadastrados:");
+        console.table(livros);
+    }
+
 }

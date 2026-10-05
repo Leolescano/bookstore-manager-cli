@@ -1,3 +1,4 @@
+import { LivroComAutor } from "../models/LivroComAutor";
 import { pool } from "../database/connection";
 import { Livro } from "../models/Livro";
 
@@ -29,5 +30,34 @@ export class LivroRepository {
             registro.quantidade_total,
             registro.quantidade_disponivel
         );
+    }
+    async listar(): Promise<LivroComAutor[]> {
+        const resultado = await pool.query(
+            `SELECT
+                livros.id,
+                livros.titulo,
+                livros.autor_id,
+                autores.nome AS autor_nome,
+                livros.quantidade_total,
+                livros.quantidade_disponivel
+            FROM livros
+            INNER JOIN autores ON livros.autor_id = autores.id
+            ORDER BY livros.titulo, livros.id`
+        );
+
+        const livros: LivroComAutor[] = [];
+
+        for (const registro of resultado.rows) {
+            livros.push({
+                id: registro.id,
+                titulo: registro.titulo,
+                autorId: registro.autor_id,
+                autorNome: registro.autor_nome,
+                quantidadeTotal: registro.quantidade_total,
+                quantidadeDisponivel: registro.quantidade_disponivel
+            });
+        }
+
+        return livros;
     }
 }

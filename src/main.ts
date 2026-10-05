@@ -1,6 +1,5 @@
 
-//import { menuAutores } from "./menus/menuAutores";
-import { LivroController } from "./controllers/LivroController";
+import { menuPrincipal } from "./menus/menuPrincipal";
 import { pool } from "./database/connection";
 import { fecharTerminal } from "./utils/terminal";
 
@@ -9,8 +8,7 @@ async function iniciar(): Promise<void> {
     try {
         console.log("Bem-vindo ao BookStore Manager CLI!");
 
-        const livroController = new LivroController();
-        await livroController.cadastrar();
+        await menuPrincipal();
     } catch (erro) {
         if (erro instanceof Error) {
             console.error("Erro:", erro.message);

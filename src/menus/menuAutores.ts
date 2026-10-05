@@ -11,7 +11,7 @@ export async function menuAutores(): Promise<void> {
         console.log("3 - Buscar autor por ID");
         console.log("4 - Atualizar autor");
         console.log("5 - Excluir autor");
-        console.log("0 - Sair");
+        console.log("0 - Voltar ao menu principal");
 
         const opcao = await perguntar("Escolha uma opção: ");
 
@@ -33,7 +33,6 @@ export async function menuAutores(): Promise<void> {
                     await autorController.excluir();
                     break;
                 case "0":
-                    console.log("Até a próxima!");
                     return;
 
                 default:

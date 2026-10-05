@@ -1,3 +1,4 @@
+import { LivroComAutor } from "../models/LivroComAutor";
 import { Livro } from "../models/Livro";
 import { LivroRepository } from "../repositories/LivroRepository";
 import { AutorService } from "./AutorService";
@@ -39,5 +40,9 @@ export class LivroService {
             autorId,
             quantidadeTotal
         );
+    }
+
+    async listar(): Promise<LivroComAutor[]> {
+        return this.livroRepository.listar();
     }
 }
