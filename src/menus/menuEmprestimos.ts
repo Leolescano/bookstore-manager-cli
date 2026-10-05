@@ -7,6 +7,7 @@ export async function menuEmprestimos(): Promise<void> {
     while (true) {
         console.log("\n--- MENU DE EMPRÉSTIMOS ---");
         console.log("1 - Registrar empréstimo");
+        console.log("2 - Registrar devolução");
         console.log("0 - Voltar ao menu principal");
 
         const opcao = await perguntar("Escolha uma opção: ");
@@ -15,6 +16,10 @@ export async function menuEmprestimos(): Promise<void> {
             switch (opcao) {
                 case "1":
                     await emprestimoController.registrar();
+                    break;
+                
+                case "2":
+                    await emprestimoController.devolver();
                     break;
 
                 case "0":

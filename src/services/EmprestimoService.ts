@@ -30,4 +30,30 @@ export class EmprestimoService {
 
         return this.emprestimoRepository.registrar(livroId, clienteId);
     }
+
+    async buscarPorId(id: number): Promise<Emprestimo> {
+        if (!Number.isInteger(id) || id <= 0) {
+            throw new Error(
+                "O ID do empréstimo deve ser um número inteiro positivo."
+            );
+        }
+
+        const emprestimo = await this.emprestimoRepository.buscarPorId(id);
+
+        if (emprestimo === null) {
+            throw new Error("Empréstimo não encontrado.");
+        }
+
+        return emprestimo;
+    }
+
+    async devolver(id: number): Promise<Emprestimo> {
+        const emprestimo = await this.buscarPorId(id);
+
+        if (emprestimo.dataDevolucao !== null) {
+            throw new Error("Este empréstimo já foi devolvido.");
+        }
+
+        return this.emprestimoRepository.devolver(id);
+    }   
 }

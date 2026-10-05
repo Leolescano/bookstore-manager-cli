@@ -23,4 +23,14 @@ export class EmprestimoController {
         console.log("Empréstimo registrado com sucesso!");
         console.table([emprestimo]);
     }
+
+    async devolver(): Promise<void> {
+        const entrada = await perguntar("Digite o ID do empréstimo: ");
+        const id = Number(entrada);
+
+        const emprestimo = await this.emprestimoService.devolver(id);
+
+        console.log("Devolução registrada com sucesso!");
+        console.table([emprestimo]);
+    }
 }
