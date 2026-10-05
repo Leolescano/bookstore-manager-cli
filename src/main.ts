@@ -1,22 +1,24 @@
-import { pool } from "./database/connection";
-import { AutorService } from "./services/AutorService";
 
-async function testarAutorComLivro(): Promise<void> {
-    const autorService = new AutorService();
+import { menuAutores } from "./menus/menuAutores";
+import { pool } from "./database/connection";
+import { fecharTerminal } from "./utils/terminal";
+
+async function iniciar(): Promise<void> {
 
     try {
-        await autorService.excluir(1);
+        console.log("Bem-vindo ao BookStore Manager CLI!");
 
-        console.log("Autor excluído.");
+        await menuAutores();
     } catch (erro) {
         if (erro instanceof Error) {
-            console.error("Erro ao excluir autor:", erro.message);
+            console.error("Erro:", erro.message);
         } else {
             console.error("Erro inesperado:", erro);
         }
     } finally {
+        fecharTerminal();
         await pool.end();
     }
 }
 
-testarAutorComLivro();
+iniciar();
