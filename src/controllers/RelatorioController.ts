@@ -30,4 +30,16 @@ export class RelatorioController {
         console.log("\n--- LIVROS EMPRESTADOS ---");
         console.table(livros);
     }
+
+    async listarLivrosPorAutor(): Promise<void> {
+        const autores = await this.relatorioService.listarLivrosPorAutor();
+
+        if (autores.length === 0) {
+            console.log("Nenhum autor cadastrado.");
+            return;
+        }
+
+        console.log("\n--- LIVROS POR AUTOR ---");
+        console.table(autores);
+    }
 }

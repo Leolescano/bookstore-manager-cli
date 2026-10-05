@@ -1,5 +1,9 @@
 import { pool } from "../database/connection";
-import { LivroDisponivel, LivroEmprestado } from "../models/Relatorios";
+import {
+    LivroDisponivel,
+    LivroEmprestado,
+    LivrosPorAutor
+} from "../models/Relatorios";
 
 export class RelatorioRepository {
     async listarLivrosDisponiveis(): Promise<LivroDisponivel[]> {
@@ -55,5 +59,31 @@ export class RelatorioRepository {
         }
 
         return livros;
+    }
+
+    async listarLivrosPorAutor(): Promise<LivrosPorAutor[]> {
+        const resultado = await pool.query(
+                `SELECT
+                    autores.id,
+                    autores.nome AS autor_nome,
+                    COUNT(livros.id) AS quantidade_livros
+                FROM autores
+                LEFT JOIN livros
+                    ON livros.autor_id = autores.id
+                GROUP BY autores.id, autores.nome
+                ORDER BY quantidade_livros DESC, autores.nome, autores.id`
+            );
+
+        const autores: LivrosPorAutor[] = [];
+
+        for (const registro of resultado.rows) {
+            autores.push({
+                id: registro.id,
+                autorNome: registro.autor_nome,
+                quantidadeLivros: Number(registro.quantidade_livros)
+            });
+        }
+
+        return autores;
     }
 }

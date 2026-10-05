@@ -10,3 +10,9 @@ export interface LivroEmprestado {
     titulo: string;
     quantidadeEmprestada: number;
 }
+
+export interface LivrosPorAutor {
+    id: number;
+    autorNome: string;
+    quantidadeLivros: number;
+}
