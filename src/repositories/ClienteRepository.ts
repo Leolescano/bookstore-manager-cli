@@ -57,4 +57,30 @@ export class ClienteRepository {
             registro.email
         );
     }
+
+    async atualizar(
+        id: number,
+        nome: string,
+        email: string
+    ): Promise<Cliente | null> {
+        const resultado = await pool.query(
+            `UPDATE clientes
+            SET nome = $1, email = $2
+            WHERE id = $3
+            RETURNING id, nome, email`,
+            [nome, email, id]
+        );
+
+        const registro = resultado.rows[0];
+
+        if (!registro) {
+            return null;
+        }
+
+        return new Cliente(
+            registro.id,
+            registro.nome,
+            registro.email
+        );
+    }
 }

@@ -9,6 +9,7 @@ export async function menuClientes(): Promise<void> {
         console.log("1 - Cadastrar cliente");
         console.log("2 - Listar clientes");
         console.log("3 - Buscar cliente por ID");
+        console.log("4 - Atualizar cliente");
         console.log("0 - Voltar ao menu principal");
 
         const opcao = await perguntar("Escolha uma opção: ");
@@ -25,6 +26,11 @@ export async function menuClientes(): Promise<void> {
                 
                 case "3":
                     await clienteController.buscarPorId();
+                    break;
+
+
+                case "4":
+                    await clienteController.atualizar();
                     break;
 
                 case "0":

@@ -38,4 +38,26 @@ export class ClienteController {
 
         console.table([cliente]);
     }
+
+    async atualizar(): Promise<void> {
+        const entrada = await perguntar("Digite o ID do cliente: ");
+        const id = Number(entrada);
+
+        const clienteAtual = await this.clienteService.buscarPorId(id);
+
+        console.log("Dados atuais:");
+        console.table([clienteAtual]);
+
+        const nome = await perguntar("Digite o novo nome: ");
+        const email = await perguntar("Digite o novo e-mail: ");
+
+        const clienteAtualizado = await this.clienteService.atualizar(
+            id,
+            nome,
+            email
+        );
+
+        console.log("Cliente atualizado com sucesso!");
+        console.table([clienteAtualizado]);
+    }
 }
