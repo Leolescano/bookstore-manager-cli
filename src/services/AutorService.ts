@@ -21,4 +21,8 @@ export class AutorService {
 
         return this.autorRepository.cadastrar(nomeTratado);
     }
+
+    async listar(): Promise<Autor[]> {
+        return this.autorRepository.listar();
+    }
 }

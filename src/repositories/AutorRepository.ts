@@ -12,4 +12,18 @@ export class AutorRepository {
 
         return new Autor(registro.id, registro.nome);
     }
+
+    async listar(): Promise<Autor[]> {
+        const resultado = await pool.query(
+            "SELECT id, nome FROM autores ORDER BY nome, id"
+         );
+
+        const autores: Autor[] = [];
+
+        for (const registro of resultado.rows) {
+            const autor = new Autor(registro.id, registro.nome);
+            autores.push(autor);
+         }
+        return autores;
+   }
 }
