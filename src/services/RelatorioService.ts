@@ -1,4 +1,4 @@
-import { LivroDisponivel } from "../models/Relatorios";
+import { LivroDisponivel, LivroEmprestado } from "../models/Relatorios";
 import { RelatorioRepository } from "../repositories/RelatorioRepository";
 
 export class RelatorioService {
@@ -10,5 +10,9 @@ export class RelatorioService {
 
     async listarLivrosDisponiveis(): Promise<LivroDisponivel[]> {
         return this.relatorioRepository.listarLivrosDisponiveis();
+    }
+
+    async listarLivrosEmprestados(): Promise<LivroEmprestado[]> {
+        return this.relatorioRepository.listarLivrosEmprestados();
     }
 }

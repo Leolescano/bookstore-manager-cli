@@ -4,3 +4,9 @@ export interface LivroDisponivel {
     autorNome: string;
     quantidadeDisponivel: number;
 }
+
+export interface LivroEmprestado {
+    id: number;
+    titulo: string;
+    quantidadeEmprestada: number;
+}

@@ -7,6 +7,7 @@ export async function menuRelatorios(): Promise<void> {
     while (true) {
         console.log("\n--- MENU DE RELATÓRIOS ---");
         console.log("1 - Livros disponíveis");
+        console.log("2 - Livros emprestados");
         console.log("0 - Voltar ao menu principal");
 
         const opcao = await perguntar("Escolha uma opção: ");
@@ -15,6 +16,10 @@ export async function menuRelatorios(): Promise<void> {
             switch (opcao) {
                 case "1":
                     await relatorioController.listarLivrosDisponiveis();
+                    break;
+                
+                case "2":
+                    await relatorioController.listarLivrosEmprestados();
                     break;
 
                 case "0":
