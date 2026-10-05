@@ -1,12 +1,14 @@
 import { perguntar } from "../utils/terminal";
 import { menuAutores } from "./menuAutores";
 import { menuLivros } from "./menuLivros";
+import { menuClientes } from "./menuClientes";
 
 export async function menuPrincipal(): Promise<void> {
     while (true) {
         console.log("\n--- BOOKSTORE MANAGER ---");
         console.log("1 - Gerenciar autores");
         console.log("2 - Gerenciar livros");
+        console.log("3 - Gerenciar clientes");
         console.log("0 - Sair");
 
         const opcao = await perguntar("Escolha uma opção: ");
@@ -20,6 +22,10 @@ export async function menuPrincipal(): Promise<void> {
                 await menuLivros();
                 break;
 
+            case "3":
+                await menuClientes();
+                break;    
+            
             case "0":
                 console.log("Até a próxima!");
                 return;
