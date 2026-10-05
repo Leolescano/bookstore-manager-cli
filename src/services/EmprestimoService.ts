@@ -2,6 +2,7 @@ import { Emprestimo } from "../models/Emprestimo";
 import { EmprestimoRepository } from "../repositories/EmprestimoRepository";
 import { LivroService } from "./LivroService";
 import { ClienteService } from "./ClienteService";
+import { EmprestimoDetalhado } from "../models/EmprestimoDetalhado";
 
 export class EmprestimoService {
     private emprestimoRepository: EmprestimoRepository;
@@ -56,4 +57,8 @@ export class EmprestimoService {
 
         return this.emprestimoRepository.devolver(id);
     }   
+
+    async listar(): Promise<EmprestimoDetalhado[]> {
+        return this.emprestimoRepository.listar();
+    }
 }

@@ -1,5 +1,6 @@
 import { pool } from "../database/connection";
 import { Emprestimo } from "../models/Emprestimo";
+import { EmprestimoDetalhado } from "../models/EmprestimoDetalhado";
 
 export class EmprestimoRepository {
     async registrar(
@@ -132,5 +133,36 @@ export class EmprestimoRepository {
         } finally {
             conexao.release();
         }
+    }
+
+    async listar(): Promise<EmprestimoDetalhado[]> {
+        const resultado = await pool.query(
+            `SELECT
+                emprestimos.id,
+                livros.titulo AS livro_titulo,
+                clientes.nome AS cliente_nome,
+                emprestimos.data_emprestimo,
+                emprestimos.data_devolucao
+            FROM emprestimos
+            INNER JOIN livros
+                ON emprestimos.livro_id = livros.id
+            INNER JOIN clientes
+                ON emprestimos.cliente_id = clientes.id
+            ORDER BY emprestimos.id DESC`
+        );
+
+        const emprestimos: EmprestimoDetalhado[] = [];
+
+        for (const registro of resultado.rows) {
+            emprestimos.push({
+                id: registro.id,
+                livroTitulo: registro.livro_titulo,
+                clienteNome: registro.cliente_nome,
+                dataEmprestimo: registro.data_emprestimo,
+                dataDevolucao: registro.data_devolucao
+            });
+        }
+
+        return emprestimos;
     }
 }

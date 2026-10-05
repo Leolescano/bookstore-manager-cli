@@ -33,4 +33,16 @@ export class EmprestimoController {
         console.log("Devolução registrada com sucesso!");
         console.table([emprestimo]);
     }
+
+    async listar(): Promise<void> {
+        const emprestimos = await this.emprestimoService.listar();
+
+        if (emprestimos.length === 0) {
+            console.log("Nenhum empréstimo registrado.");
+            return;
+        }
+
+        console.log("\nHistórico de empréstimos:");
+        console.table(emprestimos);
+    }
 }
