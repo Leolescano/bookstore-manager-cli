@@ -14,6 +14,10 @@ export class AutorService {
         return this.autorRepository.cadastrar(nomeTratado);
     }
     
+    async listar(): Promise<Autor[]> {
+        return this.autorRepository.listar();
+    }
+
     async buscarPorId(id: number): Promise<Autor> {
         if (!Number.isInteger(id) || id <= 0) {
             throw new Error("O ID do autor deve ser um número inteiro positivo.");
@@ -40,6 +44,30 @@ export class AutorService {
         }
 
         return autor;
+    }
+
+    async excluir(id: number): Promise<void> {
+        await this.buscarPorId(id);
+
+        try {
+            const excluido = await this.autorRepository.excluir(id);
+
+            if (!excluido) {
+                throw new Error("Autor não encontrado.");
+            }
+        } catch (erro) {
+            if (
+                erro instanceof Error &&
+                "code" in erro &&
+                erro.code === "23503"
+            ) {
+                throw new Error(
+                    "Não é possível excluir um autor que possui livros cadastrados."
+                );
+            }
+
+            throw erro;
+        }
     }
 
     private validarNome(nome: string): string {

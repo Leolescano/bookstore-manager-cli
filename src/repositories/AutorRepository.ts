@@ -56,4 +56,13 @@ export class AutorRepository {
 
         return new Autor(registro.id, registro.nome);
     }
+
+    async excluir(id: number): Promise<boolean> {
+        const resultado = await pool.query(
+            "DELETE FROM autores WHERE id = $1 RETURNING id",
+            [id]
+        );
+
+        return resultado.rows.length > 0;
+    }
 }

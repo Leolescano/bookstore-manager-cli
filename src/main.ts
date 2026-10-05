@@ -1,19 +1,16 @@
 import { pool } from "./database/connection";
 import { AutorService } from "./services/AutorService";
 
-async function testarAtualizacaoAutor(): Promise<void> {
+async function testarAutorComLivro(): Promise<void> {
     const autorService = new AutorService();
 
     try {
-        const autor = await autorService.atualizar(
-            1,
-            "  "
-        );
+        await autorService.excluir(1);
 
-        console.log("Autor atualizado:", autor);
+        console.log("Autor excluído.");
     } catch (erro) {
         if (erro instanceof Error) {
-            console.error("Erro ao atualizar autor:", erro.message);
+            console.error("Erro ao excluir autor:", erro.message);
         } else {
             console.error("Erro inesperado:", erro);
         }
@@ -22,4 +19,4 @@ async function testarAtualizacaoAutor(): Promise<void> {
     }
 }
 
-testarAtualizacaoAutor();
+testarAutorComLivro();
