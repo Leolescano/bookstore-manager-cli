@@ -46,4 +46,13 @@ export class LivroController {
         console.table(livros);
     }
 
+    async buscarPorId(): Promise<void> {
+        const entrada = await perguntar("Digite o ID do livro: ");
+        const id = Number(entrada);
+
+        const livro = await this.livroService.buscarPorId(id);
+
+        console.table([livro]);
+    }
+
 }

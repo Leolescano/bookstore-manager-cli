@@ -60,4 +60,32 @@ export class LivroRepository {
 
         return livros;
     }
+
+    async buscarPorId(id: number): Promise<Livro | null> {
+        const resultado = await pool.query(
+            `SELECT
+                id,
+                titulo,
+                autor_id,
+                quantidade_total,
+                quantidade_disponivel
+            FROM livros
+            WHERE id = $1`,
+            [id]
+        );
+
+        const registro = resultado.rows[0];
+
+        if (!registro) {
+            return null;
+        }
+
+        return new Livro(
+            registro.id,
+            registro.titulo,
+            registro.autor_id,
+            registro.quantidade_total,
+            registro.quantidade_disponivel
+        );
+    }
 }

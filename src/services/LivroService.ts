@@ -45,4 +45,18 @@ export class LivroService {
     async listar(): Promise<LivroComAutor[]> {
         return this.livroRepository.listar();
     }
+
+    async buscarPorId(id: number): Promise<Livro> {
+        if (!Number.isInteger(id) || id <= 0) {
+            throw new Error("O ID do livro deve ser um número inteiro positivo.");
+        }
+
+        const livro = await this.livroRepository.buscarPorId(id);
+
+        if (livro === null) {
+            throw new Error("Livro não encontrado.");
+        }
+
+        return livro;
+    }
 }

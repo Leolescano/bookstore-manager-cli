@@ -8,6 +8,7 @@ export async function menuLivros(): Promise<void> {
         console.log("\n--- MENU DE LIVROS ---");
         console.log("1 - Cadastrar livro");
         console.log("2 - Listar livros");
+        console.log("3 - Buscar livro por ID");
         console.log("0 - Voltar ao menu principal");
 
         const opcao = await perguntar("Escolha uma opção: ");
@@ -22,6 +23,10 @@ export async function menuLivros(): Promise<void> {
                     await livroController.listar();
                     break;
 
+                case "3":
+                    await livroController.buscarPorId();
+                    break;
+                
                 case "0":
                     return;
 
