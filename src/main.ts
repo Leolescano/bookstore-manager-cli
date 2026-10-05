@@ -1,16 +1,19 @@
 import { pool } from "./database/connection";
 import { AutorService } from "./services/AutorService";
 
-async function testarBuscaAutor(): Promise<void> {
+async function testarAtualizacaoAutor(): Promise<void> {
     const autorService = new AutorService();
 
     try {
-        const autor = await autorService.buscarPorId(0);
+        const autor = await autorService.atualizar(
+            1,
+            "  "
+        );
 
-        console.log("Autor encontrado:", autor);
+        console.log("Autor atualizado:", autor);
     } catch (erro) {
         if (erro instanceof Error) {
-            console.error("Erro ao buscar autor:", erro.message);
+            console.error("Erro ao atualizar autor:", erro.message);
         } else {
             console.error("Erro inesperado:", erro);
         }
@@ -19,4 +22,4 @@ async function testarBuscaAutor(): Promise<void> {
     }
 }
 
-testarBuscaAutor();
+testarAtualizacaoAutor();

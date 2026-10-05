@@ -41,4 +41,19 @@ export class AutorRepository {
 
         return new Autor(registro.id, registro.nome);
     }
+
+    async atualizar(id: number, nome: string): Promise<Autor | null> {
+        const resultado = await pool.query(
+            "UPDATE autores SET nome = $1 WHERE id = $2 RETURNING id, nome",
+            [nome, id]
+        );
+
+        const registro = resultado.rows[0];
+
+        if (!registro) {
+            return null;
+        }
+
+        return new Autor(registro.id, registro.nome);
+    }
 }
