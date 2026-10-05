@@ -1,22 +1,22 @@
 import { pool } from "./database/connection";
+import { AutorService } from "./services/AutorService";
 
-const nomeDoSistema: string = "BookStore Manager CLI";
-
-async function testarConexao(): Promise<void> {
-    console.log(`Bem-vindo ao ${nomeDoSistema}!`);
+async function testarCadastroAutor(): Promise<void> {
+    const autorService = new AutorService();
 
     try {
-        const resultado = await pool.query(
-            "SELECT current_database() AS banco"
-        );
+        const autor = await autorService.cadastrar("   ");
 
-        console.log("Conectado ao banco:", resultado.rows[0].banco);
+        console.log("Autor cadastrado:", autor);
     } catch (erro) {
-        console.error("Não foi possível conectar ao banco:", erro);
-        process.exitCode = 1;
+        if (erro instanceof Error) {
+            console.error("Erro ao cadastrar autor:", erro.message);
+        } else {
+            console.error("Erro inesperado:", erro);
+        }
     } finally {
         await pool.end();
     }
 }
 
-testarConexao();
+testarCadastroAutor();
