@@ -3,6 +3,7 @@ import { menuAutores } from "./menuAutores";
 import { menuLivros } from "./menuLivros";
 import { menuClientes } from "./menuClientes";
 import { menuEmprestimos } from "./menuEmprestimos";
+import { menuRelatorios } from "./menuRelatorios";
 
 export async function menuPrincipal(): Promise<void> {
     while (true) {
@@ -11,6 +12,7 @@ export async function menuPrincipal(): Promise<void> {
         console.log("2 - Gerenciar livros");
         console.log("3 - Gerenciar clientes");
         console.log("4 - Gerenciar empréstimos");
+        console.log("5 - Relatórios");
         console.log("0 - Sair");
 
         const opcao = await perguntar("Escolha uma opção: ");
@@ -32,6 +34,10 @@ export async function menuPrincipal(): Promise<void> {
                 await menuEmprestimos();
                 break;
 
+            case "5":
+                await menuRelatorios();
+                break;
+                
             case "0":
                 console.log("Até a próxima!");
                 return;
