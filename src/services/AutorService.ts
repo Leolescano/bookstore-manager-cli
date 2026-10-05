@@ -25,4 +25,19 @@ export class AutorService {
     async listar(): Promise<Autor[]> {
         return this.autorRepository.listar();
     }
+
+    async buscarPorId(id: number): Promise<Autor> {
+        if (!Number.isInteger(id) || id <= 0) {
+            throw new Error("O ID do autor deve ser um número inteiro positivo.");
+        }
+
+        const autor = await this.autorRepository.buscarPorId(id);
+
+        if (autor === null) {
+            throw new Error("Autor não encontrado.");
+        }
+
+        return autor;
+    }
+
 }

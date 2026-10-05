@@ -26,4 +26,19 @@ export class AutorRepository {
          }
         return autores;
    }
+
+   async buscarPorId(id: number): Promise<Autor | null> {
+        const resultado = await pool.query(
+            "SELECT id, nome FROM autores WHERE id = $1",
+            [id]
+        );
+
+        const registro = resultado.rows[0];
+
+        if (!registro) {
+            return null;
+        }
+
+        return new Autor(registro.id, registro.nome);
+    }
 }

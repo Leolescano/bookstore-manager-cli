@@ -1,21 +1,16 @@
 import { pool } from "./database/connection";
 import { AutorService } from "./services/AutorService";
 
-async function testarListagemAutores(): Promise<void> {
+async function testarBuscaAutor(): Promise<void> {
     const autorService = new AutorService();
 
     try {
-        const autores = await autorService.listar();
+        const autor = await autorService.buscarPorId(0);
 
-        if (autores.length === 0) {
-            console.log("Nenhum autor cadastrado.");
-        } else {
-            console.log("Autores cadastrados:");
-            console.table(autores);
-        }
+        console.log("Autor encontrado:", autor);
     } catch (erro) {
         if (erro instanceof Error) {
-            console.error("Erro ao listar autores:", erro.message);
+            console.error("Erro ao buscar autor:", erro.message);
         } else {
             console.error("Erro inesperado:", erro);
         }
@@ -24,4 +19,4 @@ async function testarListagemAutores(): Promise<void> {
     }
 }
 
-testarListagemAutores();
+testarBuscaAutor();
