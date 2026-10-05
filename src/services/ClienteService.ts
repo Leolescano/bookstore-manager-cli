@@ -83,6 +83,30 @@ export class ClienteService {
         }
     }
 
+    async excluir(id: number): Promise<void> {
+        await this.buscarPorId(id);
+
+        try {
+            const excluido = await this.clienteRepository.excluir(id);
+
+            if (!excluido) {
+                throw new Error("Cliente não encontrado.");
+            }
+        } catch (erro) {
+            if (
+                erro instanceof Error &&
+                "code" in erro &&
+                erro.code === "23503"
+            ) {
+                throw new Error(
+                    "Não é possível excluir um cliente que possui empréstimos registrados."
+                );
+            }
+
+            throw erro;
+        }
+    }
+
     private validarNome(nome: string): string {
         const nomeTratado = nome.trim();
 

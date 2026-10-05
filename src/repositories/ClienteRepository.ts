@@ -83,4 +83,13 @@ export class ClienteRepository {
             registro.email
         );
     }
+
+    async excluir(id: number): Promise<boolean> {
+        const resultado = await pool.query(
+            "DELETE FROM clientes WHERE id = $1 RETURNING id",
+            [id]
+        );
+
+        return resultado.rows.length > 0;
+    }
 }

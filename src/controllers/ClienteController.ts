@@ -60,4 +60,26 @@ export class ClienteController {
         console.log("Cliente atualizado com sucesso!");
         console.table([clienteAtualizado]);
     }
+   
+    async excluir(): Promise<void> {
+        const entrada = await perguntar("Digite o ID do cliente: ");
+        const id = Number(entrada);
+
+        const cliente = await this.clienteService.buscarPorId(id);
+
+        console.table([cliente]);
+
+        const confirmacao = await perguntar(
+            "Deseja excluir este cliente? Digite s para confirmar: "
+        );
+
+        if (confirmacao.toLowerCase() !== "s") {
+            console.log("Exclusão cancelada.");
+            return;
+        }
+
+        await this.clienteService.excluir(id);
+
+        console.log("Cliente excluído com sucesso!");
+    }
 }
