@@ -16,3 +16,9 @@ export interface LivrosPorAutor {
     autorNome: string;
     quantidadeLivros: number;
 }
+
+export interface EmprestimosPorLivro {
+    id: number;
+    titulo: string;
+    totalEmprestimos: number;
+}

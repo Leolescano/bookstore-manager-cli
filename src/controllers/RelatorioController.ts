@@ -42,4 +42,16 @@ export class RelatorioController {
         console.log("\n--- LIVROS POR AUTOR ---");
         console.table(autores);
     }
+
+    async listarEmprestimosPorLivro(): Promise<void> {
+        const livros = await this.relatorioService.listarEmprestimosPorLivro();
+
+        if (livros.length === 0) {
+            console.log("Nenhum livro cadastrado.");
+            return;
+        }
+
+        console.log("\n--- HISTÓRICO DE EMPRÉSTIMOS POR LIVRO ---");
+        console.table(livros);
+    }
 }

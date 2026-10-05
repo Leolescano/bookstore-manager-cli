@@ -2,7 +2,8 @@ import { pool } from "../database/connection";
 import {
     LivroDisponivel,
     LivroEmprestado,
-    LivrosPorAutor
+    LivrosPorAutor,
+    EmprestimosPorLivro
 } from "../models/Relatorios";
 
 export class RelatorioRepository {
@@ -85,5 +86,31 @@ export class RelatorioRepository {
         }
 
         return autores;
+    }
+
+    async listarEmprestimosPorLivro(): Promise<EmprestimosPorLivro[]> {
+        const resultado = await pool.query(
+            `SELECT
+                livros.id,
+                livros.titulo,
+                COUNT(emprestimos.id) AS total_emprestimos
+            FROM livros
+            LEFT JOIN emprestimos
+                ON emprestimos.livro_id = livros.id
+            GROUP BY livros.id, livros.titulo
+            ORDER BY total_emprestimos DESC, livros.titulo, livros.id`
+        );
+
+        const livros: EmprestimosPorLivro[] = [];
+
+        for (const registro of resultado.rows) {
+            livros.push({
+                id: registro.id,
+                titulo: registro.titulo,
+                totalEmprestimos: Number(registro.total_emprestimos)
+            });
+        }
+
+        return livros;
     }
 }

@@ -9,6 +9,7 @@ export async function menuRelatorios(): Promise<void> {
         console.log("1 - Livros disponíveis");
         console.log("2 - Livros emprestados");
         console.log("3 - Livros por autor");
+        console.log("4 - Total de empréstimos por livro");
         console.log("0 - Voltar ao menu principal");
 
         const opcao = await perguntar("Escolha uma opção: ");
@@ -26,6 +27,10 @@ export async function menuRelatorios(): Promise<void> {
                 case "3":
                     await relatorioController.listarLivrosPorAutor();
                     break;
+                 
+                case "4":
+                    await relatorioController.listarEmprestimosPorLivro();
+                    break;    
 
                 case "0":
                     return;
