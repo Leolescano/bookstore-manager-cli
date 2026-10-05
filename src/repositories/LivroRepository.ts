@@ -124,4 +124,14 @@ export class LivroRepository {
             registro.quantidade_disponivel
         );
     }
+
+    async excluir(id: number): Promise<boolean> {
+        const resultado = await pool.query(
+            "DELETE FROM livros WHERE id = $1 RETURNING id",
+            [id]
+        );
+
+        return resultado.rows.length > 0;
+    }
+
 }

@@ -90,4 +90,26 @@ export class LivroController {
         console.table([livroAtualizado]);
     }
 
+    async excluir(): Promise<void> {
+        const entrada = await perguntar("Digite o ID do livro: ");
+        const id = Number(entrada);
+
+        const livro = await this.livroService.buscarPorId(id);
+
+        console.table([livro]);
+
+        const confirmacao = await perguntar(
+            "Deseja excluir este livro? Digite s para confirmar: "
+        );
+
+        if (confirmacao.toLowerCase() !== "s") {
+            console.log("Exclusão cancelada.");
+            return;
+        }
+
+        await this.livroService.excluir(id);
+
+        console.log("Livro excluído com sucesso!");
+    }
+
 }
