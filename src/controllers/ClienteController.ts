@@ -17,4 +17,25 @@ export class ClienteController {
         console.log("Cliente cadastrado com sucesso!");
         console.table([cliente]);
     }
+
+    async listar(): Promise<void> {
+        const clientes = await this.clienteService.listar();
+
+        if (clientes.length === 0) {
+            console.log("Nenhum cliente cadastrado.");
+            return;
+        }
+
+        console.log("\nClientes cadastrados:");
+        console.table(clientes);
+    }
+
+    async buscarPorId(): Promise<void> {
+        const entrada = await perguntar("Digite o ID do cliente: ");
+        const id = Number(entrada);
+
+        const cliente = await this.clienteService.buscarPorId(id);
+
+        console.table([cliente]);
+    }
 }

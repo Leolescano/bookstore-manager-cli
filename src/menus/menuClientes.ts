@@ -7,6 +7,8 @@ export async function menuClientes(): Promise<void> {
     while (true) {
         console.log("\n--- MENU DE CLIENTES ---");
         console.log("1 - Cadastrar cliente");
+        console.log("2 - Listar clientes");
+        console.log("3 - Buscar cliente por ID");
         console.log("0 - Voltar ao menu principal");
 
         const opcao = await perguntar("Escolha uma opção: ");
@@ -15,6 +17,14 @@ export async function menuClientes(): Promise<void> {
             switch (opcao) {
                 case "1":
                     await clienteController.cadastrar();
+                    break;
+
+                case "2":
+                    await clienteController.listar();
+                    break;
+                
+                case "3":
+                    await clienteController.buscarPorId();
                     break;
 
                 case "0":

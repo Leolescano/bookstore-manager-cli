@@ -46,4 +46,23 @@ export class ClienteService {
             throw erro;
         }
     }
+ 
+    async listar(): Promise<Cliente[]> {
+        return this.clienteRepository.listar();
+    }
+
+    async buscarPorId(id: number): Promise<Cliente> {
+        if (!Number.isInteger(id) || id <= 0) {
+            throw new Error("O ID do cliente deve ser um número inteiro positivo.");
+        }
+
+        const cliente = await this.clienteRepository.buscarPorId(id);
+
+        if (cliente === null) {
+            throw new Error("Cliente não encontrado.");
+        }
+
+        return cliente;
+    }
+
 }

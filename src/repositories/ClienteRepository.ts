@@ -18,4 +18,43 @@ export class ClienteRepository {
             registro.email
         );
     }
+
+    async listar(): Promise<Cliente[]> {
+        const resultado = await pool.query(
+            "SELECT id, nome, email FROM clientes ORDER BY nome, id"
+        );
+
+        const clientes: Cliente[] = [];
+
+        for (const registro of resultado.rows) {
+            const cliente = new Cliente(
+                registro.id,
+                registro.nome,
+                registro.email
+            );
+
+            clientes.push(cliente);
+        }
+
+        return clientes;
+    }
+
+    async buscarPorId(id: number): Promise<Cliente | null> {
+        const resultado = await pool.query(
+            "SELECT id, nome, email FROM clientes WHERE id = $1",
+            [id]
+        );
+
+        const registro = resultado.rows[0];
+
+        if (!registro) {
+            return null;
+        }
+
+        return new Cliente(
+            registro.id,
+            registro.nome,
+            registro.email
+        );
+    }
 }
