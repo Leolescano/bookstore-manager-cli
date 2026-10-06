@@ -4,6 +4,7 @@ import {
     LivrosPorAutor,
     EmprestimosPorLivro
 } from "../models/Relatorios";
+import { ClienteComEmprestimos } from "../models/Relatorios";
 import { RelatorioRepository } from "../repositories/RelatorioRepository";
 
 export class RelatorioService {
@@ -27,5 +28,9 @@ export class RelatorioService {
 
     async listarEmprestimosPorLivro(): Promise<EmprestimosPorLivro[]> {
         return this.relatorioRepository.listarEmprestimosPorLivro();
+    }
+    
+    async listarClientesComEmprestimos(): Promise<ClienteComEmprestimos[]> {
+        return this.relatorioRepository.listarClientesComEmprestimos();
     }
 }

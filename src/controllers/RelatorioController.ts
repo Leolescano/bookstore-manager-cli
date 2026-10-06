@@ -54,4 +54,17 @@ export class RelatorioController {
         console.log("\n--- HISTÓRICO DE EMPRÉSTIMOS POR LIVRO ---");
         console.table(livros);
     }
+
+    async listarClientesComEmprestimos(): Promise<void> {
+        const clientes =
+            await this.relatorioService.listarClientesComEmprestimos();
+
+        if (clientes.length === 0) {
+            console.log("Nenhum cliente com empréstimos em aberto.");
+            return;
+        }
+
+        console.log("\n--- CLIENTES COM EMPRÉSTIMOS EM ABERTO ---");
+        console.table(clientes);
+    }
 }

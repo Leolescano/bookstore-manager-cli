@@ -5,6 +5,7 @@ import {
     LivrosPorAutor,
     EmprestimosPorLivro
 } from "../models/Relatorios";
+import { ClienteComEmprestimos } from "../models/Relatorios";
 
 export class RelatorioRepository {
     async listarLivrosDisponiveis(): Promise<LivroDisponivel[]> {
@@ -112,5 +113,34 @@ export class RelatorioRepository {
         }
 
         return livros;
+    }
+
+    async listarClientesComEmprestimos(): Promise<ClienteComEmprestimos[]> {
+        const resultado = await pool.query(
+            `SELECT
+                clientes.id,
+                clientes.nome,
+                clientes.email,
+                COUNT(emprestimos.id) AS emprestimos_ativos
+            FROM clientes
+            INNER JOIN emprestimos
+                ON emprestimos.cliente_id = clientes.id
+            WHERE emprestimos.data_devolucao IS NULL
+            GROUP BY clientes.id, clientes.nome, clientes.email
+            ORDER BY emprestimos_ativos DESC, clientes.nome, clientes.id`
+        );
+
+        const clientes: ClienteComEmprestimos[] = [];
+
+        for (const registro of resultado.rows) {
+            clientes.push({
+                id: registro.id,
+                nome: registro.nome,
+                email: registro.email,
+                emprestimosAtivos: Number(registro.emprestimos_ativos)
+            });
+        }
+
+        return clientes;
     }
 }

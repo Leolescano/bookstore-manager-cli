@@ -22,3 +22,10 @@ export interface EmprestimosPorLivro {
     titulo: string;
     totalEmprestimos: number;
 }
+
+export interface ClienteComEmprestimos {
+    id: number;
+    nome: string;
+    email: string;
+    emprestimosAtivos: number;
+}
