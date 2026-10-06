@@ -26,8 +26,17 @@ export class RelatorioService {
         return this.relatorioRepository.listarLivrosPorAutor();
     }
 
-    async listarEmprestimosPorLivro(): Promise<EmprestimosPorLivro[]> {
-        return this.relatorioRepository.listarEmprestimosPorLivro();
+   async listarEmprestimosPorLivro(
+        limite: number | null = null
+    ): Promise<EmprestimosPorLivro[]> {
+        if (
+            limite !== null &&
+            (!Number.isInteger(limite) || limite <= 0)
+        ) {
+            throw new Error("O limite deve ser um número inteiro positivo.");
+        }
+
+        return this.relatorioRepository.listarEmprestimosPorLivro(limite);
     }
     
     async listarClientesComEmprestimos(): Promise<ClienteComEmprestimos[]> {

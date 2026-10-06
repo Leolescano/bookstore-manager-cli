@@ -1,4 +1,5 @@
 import { RelatorioService } from "../services/RelatorioService";
+import { perguntar } from "../utils/terminal";
 
 export class RelatorioController {
     private relatorioService: RelatorioService;
@@ -44,7 +45,14 @@ export class RelatorioController {
     }
 
     async listarEmprestimosPorLivro(): Promise<void> {
-        const livros = await this.relatorioService.listarEmprestimosPorLivro();
+        const entrada = await perguntar(
+            "Quantos livros deseja exibir? Enter para todos: "
+        );
+
+        const limite = entrada === "" ? null : Number(entrada);
+
+        const livros =
+            await this.relatorioService.listarEmprestimosPorLivro(limite);
 
         if (livros.length === 0) {
             console.log("Nenhum livro cadastrado.");

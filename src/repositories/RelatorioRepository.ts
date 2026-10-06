@@ -89,7 +89,9 @@ export class RelatorioRepository {
         return autores;
     }
 
-    async listarEmprestimosPorLivro(): Promise<EmprestimosPorLivro[]> {
+   async listarEmprestimosPorLivro(
+        limite: number | null = null
+    ): Promise<EmprestimosPorLivro[]> {
         const resultado = await pool.query(
             `SELECT
                 livros.id,
@@ -99,7 +101,9 @@ export class RelatorioRepository {
             LEFT JOIN emprestimos
                 ON emprestimos.livro_id = livros.id
             GROUP BY livros.id, livros.titulo
-            ORDER BY total_emprestimos DESC, livros.titulo, livros.id`
+            ORDER BY total_emprestimos DESC, livros.titulo, livros.id
+            LIMIT $1`,
+            [limite]
         );
 
         const livros: EmprestimosPorLivro[] = [];
